@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+
+check_dependencies()
+{
+  for dependency in curl; do
+    type $dependency >/dev/null 2>&1 || { echo >&2 "You must install \"$dependency\" first. Aborting."; exit 1; }
+  done
+}
+
+set_auth()
+{
+  if [ -n "$access_token" ]; then
+    echo "Using token $access_token"
+    auth_string="-H \"Authorization: token $access_token\""
+  else
+    echo "Proceeding without using an access token"
+    auth_string=""
+  fi
+}
+
+# Since an uncached hit will kick off a task and return 202, we prime the
+# endpoint by hitting it until we get something other than 202
+prime_endpoint()
+{
+  local res=202
+  printf "Starting..."
+  while [[ $res =~ /202/ ]]; do
+    res=`curl -s -I $auth_string -w %{http_code} $endpoint | grep HTTP/1.1 | awk {'print $2'}`
+    printf "."
+    sleep 1
+    if [[ $res =~ /20.$/ ]]; then
+      echo "Unable to retrieve repository data."
+      echo "Server returned with status $res"
+      exit 1
+    fi
+  done
+  echo ""
+}
+
+dump_data()
+{
+  data=$(curl -s $endpoint $auth_string)
+  echo $data
+}
+
+generate_graph()
+{
+  endpoint="https://api.github.com/repos/$repo/stats/commit_activity"
+  set_auth
+  echo "Looking for $repo"
+  check_dependencies
+  prime_endpoint
+  dump_data
+  echo "End!"
+}
+
+while getopts r:t:h option; do
+  case "${option}" in
+  r)  repo=${OPTARG};;
+  t)  access_token=${OPTARG};;
+  h)  usage
+      exit;;
+  esac
+done
+
+generate_graph
