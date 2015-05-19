@@ -1,35 +1,50 @@
 #!/usr/bin/env bash
-
+set_vars() {
+  GLOBIGNORE="*"
+  ENDPOINT="https://api.github.com/repos/$repo/stats/commit_activity"
+  APPNAME="KyleMacey/repo-contrib-graph"
+  ACCEPT_HEADER="Accept: application/vnd.github.full+json"
+  DAYS[0]='S'
+  DAYS[1]='M'
+  DAYS[2]='T'
+  DAYS[3]='W'
+  DAYS[4]='T'
+  DAYS[5]='F'
+  DAYS[6]='S'
+  COUNT_0_COMMITS='-'
+  COUNT_1_5_COMMITS='+'
+  COUNT_6_10_COMMITS='*'
+  COUNT_11_PLUS_COMMITS='■'
+  set_auth
+}
 
 check_dependencies()
 {
-  for dependency in curl; do
+  for dependency in curl jq; do
     type $dependency >/dev/null 2>&1 || { echo >&2 "You must install \"$dependency\" first. Aborting."; exit 1; }
   done
 }
+
 
 set_auth()
 {
   if [ -n "$access_token" ]; then
     echo "Using token $access_token"
-    auth_string="-H \"Authorization: token $access_token\""
-  else
-    echo "Proceeding without using an access token"
-    auth_string=""
+    AUTH_STRING="Authorization: token $access_token"
   fi
 }
 
 # Since an uncached hit will kick off a task and return 202, we prime the
-# endpoint by hitting it until we get something other than 202
+# ENDPOINT by hitting it until we get something other than 202
 prime_endpoint()
 {
   local res=202
   printf "Starting..."
   while [[ $res =~ /202/ ]]; do
-    res=`curl -s -I $auth_string -w %{http_code} $endpoint | grep HTTP/1.1 | awk {'print $2'}`
+    res=$(curl -s -L -I ${AUTH_STRING:+-H "$AUTH_STRING"} -w %{http_code} $ENDPOINT | grep HTTP/1.1 | awk {'print $2'})
     printf "."
     sleep 1
-    if [[ $res =~ /20.$/ ]]; then
+    if [[ $res != 20? ]]; then
       echo "Unable to retrieve repository data."
       echo "Server returned with status $res"
       exit 1
@@ -38,29 +53,64 @@ prime_endpoint()
   echo ""
 }
 
-dump_data()
+print_headers()
 {
-  data=$(curl -s $endpoint $auth_string)
-  echo $data
+  echo "$repo:"
+}
+
+fetch_and_print()
+{
+  response_data=$(curl -s -L -G \
+    -H "User-Agent: $APPNAME" \
+    -H "$ACCEPT_HEADER" \
+    ${AUTH_STRING:+-H "$AUTH_STRING"} \
+    $ENDPOINT)
+
+  if [ -n "$DEBUG" ]; then
+    echo -e $response_data
+    exit
+  fi
+
+  for d in $(seq 0 6); do
+    printf "${DAYS[$d]} |"
+    for w in $(seq 0 51); do
+      local day=$(echo $response_data | jq ".[$w] | .days | .[$d]")
+      local indicator=$COUNT_0_COMMITS
+      # printf "$day "
+
+      if [ "$day" -ge 1 -a "$day" -le 5 ]; then indicator=$COUNT_1_5_COMMITS;
+      elif [ "$day" -ge 6 -a "$day" -le 10 ]; then indicator=$COUNT_6_10_COMMITS;
+      elif [ "$day" -ge 11 ]; then indicator=$COUNT_11_PLUS_COMMITS;
+      fi
+
+      printf '%s ' $indicator
+    done
+    echo ""
+  done
 }
 
 generate_graph()
 {
-  endpoint="https://api.github.com/repos/$repo/stats/commit_activity"
-  set_auth
-  echo "Looking for $repo"
+  set_vars
   check_dependencies
   prime_endpoint
-  dump_data
+  # print_headers
+  fetch_and_print
   echo "End!"
 }
 
-while getopts r:t:h option; do
+json_parser()
+{
+  jq
+}
+
+while getopts r:t:hd option; do
   case "${option}" in
   r)  repo=${OPTARG};;
   t)  access_token=${OPTARG};;
   h)  usage
       exit;;
+  d)  DEBUG=true
   esac
 done
 
