@@ -40,22 +40,29 @@ prime_endpoint()
 {
   local res=202
   printf "Starting..."
-  while [[ $res =~ /202/ ]]; do
+  while [[ $res != 200 ]]; do
     res=$(curl -s -L -I ${AUTH_STRING:+-H "$AUTH_STRING"} -w %{http_code} $ENDPOINT | grep HTTP/1.1 | awk {'print $2'})
     printf "."
     sleep 1
     if [[ $res != 20? ]]; then
-      echo "Unable to retrieve repository data."
+      echo ""
+      echo "FATAL: Unable to retrieve repository data."
       echo "Server returned with status $res"
       exit 1
     fi
   done
-  echo ""
+  echo -e "\n\n"
 }
 
 print_headers()
 {
   echo "$repo:"
+}
+
+print_key()
+{
+  printf '  %s: 0 commits     %s: 1-5 commits \n' $COUNT_0_COMMITS $COUNT_1_5_COMMITS
+  printf '  %s: 6-10 commits  %s: 11+ commits \n' $COUNT_6_10_COMMITS $COUNT_11_PLUS_COMMITS
 }
 
 fetch_and_print()
@@ -76,7 +83,6 @@ fetch_and_print()
     for w in $(seq 0 51); do
       local day=$(echo $response_data | jq ".[$w] | .days | .[$d]")
       local indicator=$COUNT_0_COMMITS
-      # printf "$day "
 
       if [ "$day" -ge 1 -a "$day" -le 5 ]; then indicator=$COUNT_1_5_COMMITS;
       elif [ "$day" -ge 6 -a "$day" -le 10 ]; then indicator=$COUNT_6_10_COMMITS;
@@ -94,9 +100,9 @@ generate_graph()
   set_vars
   check_dependencies
   prime_endpoint
-  # print_headers
+  print_headers
   fetch_and_print
-  echo "End!"
+  print_key
 }
 
 json_parser()
