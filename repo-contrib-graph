@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set_vars() {
-  repo=$(echo $repo | sed -r 's/.+github.com.([^/]+\/[^/\.]+)(.git)?/\1/')
+  repo=$(echo $repo | sed -r 's/.+github.com.([^/]+\/[^/\.]+)(.git)?/\1/') # Get repos from URLs
   GLOBIGNORE="*"
   ENDPOINT="https://api.github.com/repos/$repo/stats/commit_activity"
   APPNAME="KyleMacey/repo-contrib-graph"
@@ -26,7 +26,7 @@ check_dependencies()
   done
 }
 
-
+# Set our authorization token if it's provided
 set_auth()
 {
   if [ -n "$access_token" ]; then
@@ -52,7 +52,7 @@ prime_endpoint()
       exit 1
     fi
   done
-  echo -e "\n\n"
+  echo -e "\n"
 }
 
 print_headers()
@@ -66,6 +66,7 @@ print_key()
   printf '  %s: 6-10 commits  %s: 11+ commits \n' $COUNT_6_10_COMMITS $COUNT_11_PLUS_COMMITS
 }
 
+# Get our data from the API and massage it into a beautiful graph!
 fetch_and_print()
 {
   response_data=$(curl -s -L -G \
@@ -96,6 +97,7 @@ fetch_and_print()
   done
 }
 
+# Do all the things!
 generate_graph()
 {
   set_vars
@@ -104,11 +106,6 @@ generate_graph()
   print_headers
   fetch_and_print
   print_key
-}
-
-json_parser()
-{
-  jq
 }
 
 usage() {
