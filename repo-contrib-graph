@@ -110,6 +110,17 @@ json_parser()
   jq
 }
 
+usage() {
+  echo "\
+  usage: repo-contrib-graph [options]
+          -r) repo: The repository you want to generate a contribution graph for
+              format: username/repository
+          -t) access_token: Your personal GitHub access token
+          -h) usage: Display this help
+          -d) debug: Dumps the JSON response and exits
+  "
+}
+
 while getopts r:t:hd option; do
   case "${option}" in
   r)  repo=${OPTARG};;
