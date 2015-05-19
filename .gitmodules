@@ -1,3 +1,0 @@
-[submodule "vendor/JSON.sh"]
-	path = vendor/JSON.sh
-	url = git@github.com:dominictarr/JSON.sh.git
