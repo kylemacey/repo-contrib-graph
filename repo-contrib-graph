@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set_vars() {
+  repo=$(echo $repo | sed -r 's/.+github.com.([^/]+\/[^/\.]+)(.git)?/\1/')
   GLOBIGNORE="*"
   ENDPOINT="https://api.github.com/repos/$repo/stats/commit_activity"
   APPNAME="KyleMacey/repo-contrib-graph"
