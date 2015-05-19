@@ -30,7 +30,6 @@ check_dependencies()
 set_auth()
 {
   if [ -n "$access_token" ]; then
-    echo "Using token $access_token"
     AUTH_STRING="Authorization: token $access_token"
   fi
 }
