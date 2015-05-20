@@ -25,31 +25,31 @@ First, you might want to make sure you have [curl](http://curl.haxx.se/download.
 Then clone this repository!
 
 ```shell
-git clone https://github.com/KyleMacey/repo-contrib-graph.git; cd repo-contrib-graph`
+git clone https://github.com/KyleMacey/repo-contrib-graph.git; cd repo-contrib-graph
 ```
 
 Then simply pass in a repository with the `-r` flag.
 
 ```shell
-./repo-contrib-graph -r rails/rails`
+./repo-contrib-graph -r rails/rails
 ```
 
 Rather copy an entire URL? 
 
 ```shell
-./repo-contrib-graph -r https://github.com/rails/rails`
+./repo-contrib-graph -r https://github.com/rails/rails
 ```
 
 Have a GitHub access token to alleviate the stress of API rate limits? Then `-t` is for you.
 
 ```shell
-./repo-contrib-graph -r rails/rails -t 123456789123456789`
+./repo-contrib-graph -r rails/rails -t 123456789123456789
 ```
 
 For more help, simply give it a `-h`
 
 ```shell
-./repo-contrib-graph -h`
+./repo-contrib-graph -h
 ```
 
 ## Credit
