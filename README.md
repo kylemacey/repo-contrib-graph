@@ -32,18 +32,25 @@ Then simply pass in a repository with the `-r` flag.
 
 ```shell
 ./repo-contrib-graph -r rails/rails`
+```
 
 Rather copy an entire URL? 
 
-`./repo-contrib-graph -r https://github.com/rails/rails`
+```shell
+./repo-contrib-graph -r https://github.com/rails/rails`
+```
 
 Have a GitHub access token to alleviate the stress of API rate limits? Then `-t` is for you.
 
-`./repo-contrib-graph -r rails/rails -t 123456789123456789`
+```shell
+./repo-contrib-graph -r rails/rails -t 123456789123456789`
+```
 
 For more help, simply give it a `-h`
 
-`./repo-contrib-graph -h`
+```shell
+./repo-contrib-graph -h`
+```
 
 ## Credit
 
