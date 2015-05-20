@@ -24,11 +24,14 @@ First, you might want to make sure you have [curl](http://curl.haxx.se/download.
 
 Then clone this repository!
 
-`git clone https://github.com/KyleMacey/repo-contrib-graph.git; cd KyleMacey/repo-contrib-graph`
+```shell
+git clone https://github.com/KyleMacey/repo-contrib-graph.git; cd repo-contrib-graph`
+```
 
 Then simply pass in a repository with the `-r` flag.
 
-`./repo-contrib-graph -r rails/rails`
+```shell
+./repo-contrib-graph -r rails/rails`
 
 Rather copy an entire URL? 
 
