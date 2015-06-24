@@ -56,7 +56,7 @@ For more help, simply give it a `-h`
 
 Inspired by [IonicaBizau/git-stats](https://github.com/IonicaBizau/git-stats)
 
-## Coming Soon
+## Coming (relatively) Soon
 
  - [ ] **Colors!** A colorful representation of commit history for your viewing pleasure (#4)
  - [ ] **Distributed Ranges!** To make the graphs more relevant (#5)
