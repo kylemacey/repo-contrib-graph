@@ -62,3 +62,5 @@ Inspired by [IonicaBizau/git-stats](https://github.com/IonicaBizau/git-stats)
  - [ ] **Distributed Ranges!** To make the graphs more relevant (#5)
  - [ ] **More stats!** Because who doesn't like data? (#6)
  - [ ] **???**
+
+I'm adding this line!
