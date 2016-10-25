@@ -2,7 +2,7 @@
 
 ## Summary
 
-As a developer, when I look around on GitHub, I can quickly see how active another user is by looking at their contribution graph. 
+As a developer, when I look around on GitHub, I can quickly see how active another user is by looking at their contribution graph.
 
 ![dhh is keeping it real](https://cloud.githubusercontent.com/assets/519171/7695690/5952f4be-fdc1-11e4-9c0f-3119f3b14675.png)
 
@@ -34,7 +34,7 @@ Then simply pass in a repository with the `-r` flag.
 ./repo-contrib-graph -r rails/rails
 ```
 
-Rather copy an entire URL? 
+Rather copy an entire URL?
 
 ```shell
 ./repo-contrib-graph -r https://github.com/rails/rails
@@ -44,6 +44,12 @@ Have a GitHub access token to alleviate the stress of API rate limits? Then `-t`
 
 ```shell
 ./repo-contrib-graph -r rails/rails -t 123456789123456789
+```
+
+Like pretty colors? Don't we all? `-c` that noise.
+
+```shell
+./repo-contrib-graph -c -r rails/rails -t 123456789123456789
 ```
 
 For more help, simply give it a `-h`
@@ -58,7 +64,7 @@ Inspired by [IonicaBizau/git-stats](https://github.com/IonicaBizau/git-stats)
 
 ## Coming (relatively) Soon
 
- - [ ] **Colors!** A colorful representation of commit history for your viewing pleasure (#4)
+ - [x] **Colors!** A colorful representation of commit history for your viewing pleasure (#4)
  - [ ] **Distributed Ranges!** To make the graphs more relevant (#5)
  - [ ] **More stats!** Because who doesn't like data? (#6)
  - [ ] **???**
