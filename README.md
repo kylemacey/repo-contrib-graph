@@ -46,6 +46,12 @@ Have a GitHub access token to alleviate the stress of API rate limits? Then `-t`
 ./repo-contrib-graph -r rails/rails -t 123456789123456789
 ```
 
+Like pretty colors? Don't we all? `-c` that noise.
+
+```shell
+./repo-contrib-graph -c -r rails/rails -t 123456789123456789
+```
+
 For more help, simply give it a `-h`
 
 ```shell
@@ -58,7 +64,7 @@ Inspired by [IonicaBizau/git-stats](https://github.com/IonicaBizau/git-stats)
 
 ## Coming (relatively) Soon
 
- - [ ] **Colors!** A colorful representation of commit history for your viewing pleasure (#4)
+ - [x] **Colors!** A colorful representation of commit history for your viewing pleasure (#4)
  - [ ] **Distributed Ranges!** To make the graphs more relevant (#5)
  - [ ] **More stats!** Because who doesn't like data? (#6)
  - [ ] **???**
