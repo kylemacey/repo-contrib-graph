@@ -128,4 +128,9 @@ while getopts r:t:hd option; do
   esac
 done
 
+if [ -z "$repo" ]; then
+    usage
+    exit
+fi
+
 generate_graph
