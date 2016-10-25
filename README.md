@@ -2,7 +2,7 @@
 
 ## Summary
 
-As a developer, when I look around on GitHub, I can quickly see how active another user is by looking at their contribution graph. 
+As a developer, when I look around on GitHub, I can quickly see how active another user is by looking at their contribution graph.
 
 ![dhh is keeping it real](https://cloud.githubusercontent.com/assets/519171/7695690/5952f4be-fdc1-11e4-9c0f-3119f3b14675.png)
 
@@ -34,7 +34,7 @@ Then simply pass in a repository with the `-r` flag.
 ./repo-contrib-graph -r rails/rails
 ```
 
-Rather copy an entire URL? 
+Rather copy an entire URL?
 
 ```shell
 ./repo-contrib-graph -r https://github.com/rails/rails
