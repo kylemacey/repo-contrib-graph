@@ -14,7 +14,7 @@ set_vars() {
   DAYS[6]='S'
   if [ -n "$use_color" ]; then
     HEAT_1=$'\e[38;5;102m'
-    HEAT_2=$'\e[38;5;46m'
+    HEAT_2=$'\e[38;5;34m'
     HEAT_3=$'\e[38;5;28m'
     HEAT_4=$'\e[38;5;22m'
     ENDC=$'\e[0m'
