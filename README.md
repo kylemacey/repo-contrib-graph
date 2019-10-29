@@ -4,7 +4,7 @@
 
 As a developer, when I look around on GitHub, I can quickly see how active another user is by looking at their contribution graph.
 
-![dhh is keeping it real](https://cloud.githubusercontent.com/assets/519171/7695690/5952f4be-fdc1-11e4-9c0f-3119f3b14675.png)
+![some sweet, tender loving](https://user-images.githubusercontent.com/519171/67789032-b18ee780-fa49-11e9-9d0b-4a9cf66a30f9.png)
 
 However, it sometimes may just as important, if not *more* important to see how active a repository is. I want a quick, at-a-glance view of how often a repository is being contributed to. If I'm going to use a project as a dependency, I want to know that there's life in the community.
 
