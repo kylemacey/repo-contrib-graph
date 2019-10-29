@@ -14,7 +14,7 @@ What does it do, you might ask?
 
 Blammo:
 
-![Ladies and Gentlemen, your repository contribution graph](https://cloud.githubusercontent.com/assets/519171/7695724/e3ef72dc-fdc1-11e4-8251-4ace5642318e.png)
+![Theydies and Gentlethem, your repository contribution graph](https://user-images.githubusercontent.com/519171/67788391-9a9bc580-fa48-11e9-9370-c0696cb3b123.png)
 
 It generates an ASCII contribution graph for an entire repository. Now you can see how active a repo is with just a few simple keystrokes!
 
@@ -46,10 +46,10 @@ Have a GitHub access token to alleviate the stress of API rate limits? Then `-t`
 ./repo-contrib-graph -r rails/rails -t 123456789123456789
 ```
 
-Like pretty colors? Don't we all? `-c` that noise.
+Your shell doesn't support color? `-p` that noise.
 
 ```shell
-./repo-contrib-graph -c -r rails/rails -t 123456789123456789
+./repo-contrib-graph -p -r rails/rails
 ```
 
 For more help, simply give it a `-h`
@@ -65,6 +65,6 @@ Inspired by [IonicaBizau/git-stats](https://github.com/IonicaBizau/git-stats)
 ## Coming (relatively) Soon
 
  - [x] **Colors!** A colorful representation of commit history for your viewing pleasure (#4)
- - [ ] **Distributed Ranges!** To make the graphs more relevant (#5)
- - [ ] **More stats!** Because who doesn't like data? (#6)
+ - [x] **Distributed Ranges!** To make the graphs more relevant (#5)
+ - [x] **More stats!** Because who doesn't like data? (#6)
  - [ ] **???**
