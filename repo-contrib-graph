@@ -83,6 +83,15 @@ print_key()
     | sed -e "s/ICON1/$COUNT_0_COMMITS/" -e "s/ICON2/$COUNT_1_5_COMMITS/" -e "s/ICON3/$COUNT_6_10_COMMITS/" -e "s/ICON4/$COUNT_11_PLUS_COMMITS/"
 }
 
+print_stats()
+{
+  echo
+  echo "Total contributions in the past year: $total commits"
+  echo "Average contribution per day: $(expr $total / 365) commits"
+  echo "Most contribution in a single day: $max commits"
+  echo "Longest streak: $longest_streak days"
+}
+
 # Get our data from the API and massage it into a beautiful graph!
 fetch_and_print()
 {
@@ -99,10 +108,22 @@ fetch_and_print()
 
   # Calculate the max number of contributions in any given day
   max=0;
-
+  longest_streak=0;
+  this_streak=0;
+  total=0
   for dx in $(seq 0 6); do
     for wx in $(seq 0 51); do
       local day=$(echo $response_data | jq ".[$wx] | .days | .[$dx]")
+
+      if [ "$day" -gt 0 ]; then
+        total=$(expr $total + $day)
+        this_streak=$(expr $this_streak + 1)
+        if [ "$this_streak" -gt "$longest_streak" ]; then
+          longest_streak=$this_streak
+        fi
+      else
+        this_streak=0;
+      fi
       if [ "$day" -gt "$max" ]; then
         max=$day;
       fi
@@ -140,6 +161,7 @@ generate_graph()
   print_headers
   fetch_and_print
   print_key
+  print_stats
 }
 
 usage() {
