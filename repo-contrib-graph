@@ -12,7 +12,12 @@ set_vars() {
   DAYS[4]='T'
   DAYS[5]='F'
   DAYS[6]='S'
-  if [ -n "$use_color" ]; then
+  if [ -n "$disable_color" ]; then
+    COUNT_0_COMMITS='-'
+    COUNT_1_5_COMMITS='+'
+    COUNT_6_10_COMMITS='*'
+    COUNT_11_PLUS_COMMITS='■'
+  else
     HEAT_1=$'\e[38;5;102m'
     HEAT_2=$'\e[38;5;34m'
     HEAT_3=$'\e[38;5;28m'
@@ -22,11 +27,6 @@ set_vars() {
     COUNT_1_5_COMMITS="${HEAT_2}■${ENDC}"
     COUNT_6_10_COMMITS="${HEAT_3}■${ENDC}"
     COUNT_11_PLUS_COMMITS="${HEAT_4}■${ENDC}"
-  else
-    COUNT_0_COMMITS='-'
-    COUNT_1_5_COMMITS='+'
-    COUNT_6_10_COMMITS='*'
-    COUNT_11_PLUS_COMMITS='■'
   fi
   set_auth
 }
@@ -170,17 +170,18 @@ usage() {
           -r) repo: The repository you want to generate a contribution graph for
               format: username/repository
           -t) access_token: Your personal GitHub access token
-          -c) color: display the graph with pretty colors!
+          -p) plain: don't display with color escape sequences
           -h) usage: Display this help
           -d) debug: Dumps the JSON response and exits
   "
 }
 
-while getopts r:t:chd option; do
+while getopts r:t:cphd option; do
   case "${option}" in
   r)  repo=${OPTARG};;
   t)  access_token=${OPTARG};;
-  c)  use_color=true;;
+  c)  echo "using color is the default now!";;
+  p)  disable_color=true;;
   h)  usage
       exit;;
   d)  DEBUG=true
