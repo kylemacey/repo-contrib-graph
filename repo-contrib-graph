@@ -73,8 +73,14 @@ print_headers()
 
 print_key()
 {
-  printf '  %s: 0 commits     %s: 1-5 commits \n' $COUNT_0_COMMITS $COUNT_1_5_COMMITS
-  printf '  %s: 6-10 commits  %s: 11+ commits \n' $COUNT_6_10_COMMITS $COUNT_11_PLUS_COMMITS
+  # The general key template
+  # Substitute in the bounds for the ranges
+  # Format as a table
+  # `column` struggles with escape codes/colors, so we sub them in after the fact
+  printf '   ICON1: 0 commits,ICON2: 1-%s commits\n   ICON3: %s-%s commits,ICON4: %s+ commits\n' \
+    $bound2 $(expr $bound2 + 1) $bound3 $(expr $bound3 + 1) \
+    | column -ts, \
+    | sed -e "s/ICON1/$COUNT_0_COMMITS/" -e "s/ICON2/$COUNT_1_5_COMMITS/" -e "s/ICON3/$COUNT_6_10_COMMITS/" -e "s/ICON4/$COUNT_11_PLUS_COMMITS/"
 }
 
 # Get our data from the API and massage it into a beautiful graph!
@@ -91,15 +97,32 @@ fetch_and_print()
     exit
   fi
 
+  # Calculate the max number of contributions in any given day
+  max=0;
+
+  for dx in $(seq 0 6); do
+    for wx in $(seq 0 51); do
+      local day=$(echo $response_data | jq ".[$wx] | .days | .[$dx]")
+      if [ "$day" -gt "$max" ]; then
+        max=$day;
+      fi
+    done
+  done
+
+  local segment=$(expr $max / 3)
+  bound1=0;
+  bound2=$(expr $segment);
+  bound3=$(expr $segment * 2);
+
   for d in $(seq 0 6); do
     printf "${DAYS[$d]} |"
     for w in $(seq 0 51); do
       local day=$(echo $response_data | jq ".[$w] | .days | .[$d]")
       local indicator=$COUNT_0_COMMITS
 
-      if [ "$day" -ge 1 -a "$day" -le 5 ]; then indicator=$COUNT_1_5_COMMITS;
-      elif [ "$day" -ge 6 -a "$day" -le 10 ]; then indicator=$COUNT_6_10_COMMITS;
-      elif [ "$day" -ge 11 ]; then indicator=$COUNT_11_PLUS_COMMITS;
+      if [ "$day" -gt $bound1 -a "$day" -le $bound2 ]; then indicator=$COUNT_1_5_COMMITS;
+      elif [ "$day" -gt $bound2 -a "$day" -le $bound3 ]; then indicator=$COUNT_6_10_COMMITS;
+      elif [ "$day" -gt $bound3 ]; then indicator=$COUNT_11_PLUS_COMMITS;
       fi
 
       printf '%s ' $indicator
