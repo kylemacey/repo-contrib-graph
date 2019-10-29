@@ -166,19 +166,18 @@ generate_graph()
 
 usage() {
   echo "\
-  usage: repo-contrib-graph [options]
-          -r) repo: The repository you want to generate a contribution graph for
-              format: username/repository
+  usage: repo-contrib-graph [options] repo
           -t) access_token: Your personal GitHub access token
           -p) plain: don't display with color escape sequences
           -h) usage: Display this help
           -d) debug: Dumps the JSON response and exits
+          repo: The repository you want to generate a contribution graph for
+              format: username/repository
   "
 }
 
 while getopts r:t:cphd option; do
   case "${option}" in
-  r)  repo=${OPTARG};;
   t)  access_token=${OPTARG};;
   c)  echo "using color is the default now!";;
   p)  disable_color=true;;
@@ -187,6 +186,8 @@ while getopts r:t:cphd option; do
   d)  DEBUG=true
   esac
 done
+
+repo=$1
 
 if [ -z "$repo" ]; then
     usage

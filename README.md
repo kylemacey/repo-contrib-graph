@@ -28,28 +28,28 @@ Then clone this repository!
 git clone https://github.com/KyleMacey/repo-contrib-graph.git; cd repo-contrib-graph
 ```
 
-Then simply pass in a repository with the `-r` flag.
+Then simply pass in a repository.
 
 ```shell
-./repo-contrib-graph -r rails/rails
+./repo-contrib-graph rails/rails
 ```
 
 Rather copy an entire URL?
 
 ```shell
-./repo-contrib-graph -r https://github.com/rails/rails
+./repo-contrib-graph https://github.com/rails/rails
 ```
 
 Have a GitHub access token to alleviate the stress of API rate limits? Then `-t` is for you.
 
 ```shell
-./repo-contrib-graph -r rails/rails -t 123456789123456789
+./repo-contrib-graph -t 123456789123456789 rails/rails
 ```
 
 Your shell doesn't support color? `-p` that noise.
 
 ```shell
-./repo-contrib-graph -p -r rails/rails
+./repo-contrib-graph -p rails/rails
 ```
 
 For more help, simply give it a `-h`
