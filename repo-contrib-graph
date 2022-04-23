@@ -186,7 +186,7 @@ while getopts r:t:cphd option; do
   d)  DEBUG=true
   esac
 done
-
+shift $((OPTIND-1))
 repo=$1
 
 if [ -z "$repo" ]; then
