@@ -53,7 +53,7 @@ prime_endpoint()
   local res=202
   printf "Starting..."
   while [[ $res != 200 ]]; do
-    res=$(curl -s -L -I ${AUTH_STRING:+-H "$AUTH_STRING"} -w %{http_code} $ENDPOINT | grep HTTP/1.1 | awk {'print $2'})
+    res=$(curl -s -L -I ${AUTH_STRING:+-H "$AUTH_STRING"} -w %{http_code} $ENDPOINT | grep HTTP/2 | awk {'print $2'})
     printf "."
     sleep 1
     if [[ $res != 20? ]]; then
